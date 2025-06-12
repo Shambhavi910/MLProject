@@ -4,7 +4,7 @@ from src.exception import CustomException
 from src.logger import logging
 import pandas as pd
 
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split # can i go in file explorer i need to go in c?ok tq
 from dataclasses import dataclass
 
 @dataclass
@@ -18,24 +18,31 @@ class DataIngestion:
         self.ingestion_config = DataIngestionConfig()
 
     def initiate_data_ingestion(self):
-        logging.info("Data Ingestion method starts")
+        logging.info("Entered the data Ingestion method or component")
         try:
             df = pd.read_csv('notebook/data/stud.csv')
-            logging.info("Dataset read as pandas DataFrame")
+            logging.info("Read the dataset as dataframe")
 
             os.makedirs(os.path.dirname(self.ingestion_config.train_data_path), exist_ok=True)
 
             df.to_csv(self.ingestion_config.raw_data_path, index=False, header=True)
-            logging.info("Raw data saved to artifacts folder")
+            logging.info("Train test split initiated")
 
             train_set, test_set = train_test_split(df, test_size=0.2, random_state=42)
+            
             train_set.to_csv(self.ingestion_config.train_data_path, index=False, header=True)
+            
             test_set.to_csv(self.ingestion_config.test_data_path, index=False, header=True)
 
-            logging.info("Train and Test data saved successfully")
+            logging.info("Ingestion of data is completed")
             return (
                 self.ingestion_config.train_data_path,
                 self.ingestion_config.test_data_path
             )
         except Exception as e:
             raise CustomException(e, sys) from e
+        
+if __name__ == "__main__":
+    obj = DataIngestion()
+    obj.initiate_data_ingestion() # its ur python problem only, so what to do now ? i have installe dthe new package yesterday only
+# wait thikning  
